@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 7147715}
   - component: {fileID: 7147716}
   - component: {fileID: 7147714}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Pawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7147713}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54f444eb119725e498e03b778ab1596c, type: 3}
+  m_Script: {fileID: 11500000, guid: 76b557349a6c9c7408b2c2f0b4758bda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_PawnView: {fileID: 1065433105}
@@ -164,6 +164,7 @@ MonoBehaviour:
   m_InAirMoveModifier: 0.1
   m_MoveSpeed: 0
   m_MoveVelocity: {x: 0, y: 0, z: 0}
+  m_InteractionDistance: 2.5
 --- !u!4 &7147715
 Transform:
   m_ObjectHideFlags: 0
@@ -210,7 +211,7 @@ GameObject:
   - component: {fileID: 1065433108}
   - component: {fileID: 1065433105}
   - component: {fileID: 1065433106}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ViewCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -417,7 +418,7 @@ GameObject:
   - component: {fileID: 1872405520}
   - component: {fileID: 1872405522}
   - component: {fileID: 1872405521}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -514,7 +515,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1923585545}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29bf6ce68bc2b0e40aeb3088a0ab64a4, type: 3}
   m_Name: 
