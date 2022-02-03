@@ -7,6 +7,20 @@ public sealed class CrewMember : Pawn, ICanUse, ICanInteract {
     [Header("Crew Member Properties")]
     [SerializeField, Tooltip("The distance in which the crew member can interact with objects in the world")]
     private float m_InteractionDistance = 1.5f;
+    private Inventory m_Inventory;
+
+    private void Awake() => OnAwake();
+    private void Update() => OnUpdate();
+
+    protected override void OnAwake() {
+        base.OnAwake();
+
+        m_Inventory = new Inventory(this);
+    }
+
+    protected override void OnUpdate() {
+        base.OnUpdate();
+    }
 
     public GameObject GetObjectInView() {
         // Create ray from view camera
