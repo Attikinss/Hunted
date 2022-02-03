@@ -35,14 +35,29 @@ public sealed class CrewMember : Pawn, ICanUse, ICanInteract {
     }
 
     public bool Interact(IInteractable interactable) {
+        if (interactable != null) {
+            InteractionType interaction = interactable.Interact();
+            return interaction != InteractionType.NONE;
+        }
+
         return false;
     }
 
-    public bool UsePrimary() {
+    public bool UsePrimary(IUsable usable) {
+        if (usable != null) {
+            UsageType usage = usable.UsePrimary();
+            return usage != UsageType.NONE;
+        }
+
         return false;
     }
 
-    public bool UseSecondary() {
+    public bool UseSecondary(IUsable usable) {
+        if (usable != null) {
+            UsageType usage = usable.UseSecondary();
+            return usage != UsageType.NONE;
+        }
+
         return false;
     }
 }
