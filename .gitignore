@@ -9,9 +9,14 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
+/[Uu]serSettings/
 
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
+
+# Ignore per user folders in the assets folder
+/[Aa]ssets/[Ss]amples/
+/[Aa]ssets/[Uu]ser/
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
@@ -61,3 +66,11 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# VS Code
+.vscode/
+
+# Local History for VS Code
+.history/
+
+# Built VS Code Extensions
+*.vsix
