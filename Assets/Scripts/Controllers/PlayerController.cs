@@ -12,7 +12,9 @@ public sealed class PlayerController : MonoBehaviour {
         // Auto assign if user has not done it already
         if (m_Input == null)
             m_Input = GetComponent<PlayerInput>();
-        
+    }
+
+    private void Start() {
         // Attach to pawn if one is assigned
         m_Pawn?.Attach(m_Input);
     }
