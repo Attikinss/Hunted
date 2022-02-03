@@ -62,7 +62,7 @@ public abstract class Pawn : MonoBehaviour {
     /// <param name="input">The input handler to link to.</param>
     /// <param name="forceOverride">If true, the currently linked input handler will be detatched.</param>
     /// <returns>True if input handler successfully attached to pawn.</returns>
-    public bool Attach(PlayerInput input, bool forceOverride = false) {
+    public virtual bool Attach(PlayerInput input, bool forceOverride = false) {
         if (m_InputOverride != null) {
             if (forceOverride) {
                 Detach(m_InputOverride);
@@ -90,7 +90,7 @@ public abstract class Pawn : MonoBehaviour {
 
     /// <summary>Unlinks an input handler from this pawn; releasing control over it.</summary>
     /// <param name="input">The input handler to unlink from.</param>
-    public void Detach(PlayerInput input) {
+    public virtual void Detach(PlayerInput input) {
         
         // Unsubscribe from input events
         input.actions["Crouch"].performed -= SetCrouch;
