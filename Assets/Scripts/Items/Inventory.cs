@@ -9,23 +9,23 @@ public sealed class Inventory {
     private CrewMember m_Owner;
 
     /// <summary>The collection of items that make up the inventory.</summary>
-    private List<IUsable> m_Items;
+    private List<Item> m_Items;
 
     /// <summary>The item referred to when requesting next or previous item.</summary>
-    private IUsable m_CurrentItem;
+    private Item m_CurrentItem;
 
     /// <summary>The maximum size of the inventory.</summary>
     private const int INVENTORY_SIZE = 5;
 
     public Inventory(CrewMember owner) {
         m_Owner = owner;
-        m_Items = new List<IUsable>(INVENTORY_SIZE);
+        m_Items = new List<Item>(INVENTORY_SIZE);
     }
 
     /// <summary>Added a usable item to the inventory if it isn't already full.</summary>
     /// <param name="item">The item to be added.</param>
     /// <returns>True if item was successfully added.</returns>
-    public bool AddItem(IUsable item) {
+    public bool AddItem(Item item) {
         if (Full()) {
             // Inventory full, do not add
             return false;
@@ -38,7 +38,7 @@ public sealed class Inventory {
     /// <summary>Removes a usable item from the inventory if it isn't already empty.</summary>
     /// <param name="item">The item to be removed.</param>
     /// <returns>True if item was successfully removed.</returns>
-    public bool RemoveItem(IUsable item) {
+    public bool RemoveItem(Item item) {
         if (Empty()) {
             // Inventory empty, do not remove
             return false;
@@ -59,14 +59,14 @@ public sealed class Inventory {
 
     /// <summary>Retrieves the current item.</summary>
     /// <returns>Null if the item hasn't been assigned or the inventory is empty.</returns>
-    public IUsable CurrentItem() {
+    public Item CurrentItem() {
         return m_CurrentItem;
     }
 
     /// <summary>Retrieves the next item relative to the current item.</summary>
     /// <remarks>NOTE: If the current item is the last, the next item will be the first.</remarks>
     /// <returns>Next item in inventory rotation.</returns>
-    public IUsable NextItem() {
+    public Item NextItem() {
         if (m_CurrentItem == null && !Empty()) {
             m_CurrentItem = m_Items.First();
         }
@@ -84,7 +84,7 @@ public sealed class Inventory {
     /// <summary>Retrieves the previous item relative to the current item.</summary>
     /// <remarks>NOTE: If the current item is the first, the next item will be the last.</remarks>
     /// <returns>Previous item in inventory rotation.</returns>
-    public IUsable PrevItem() {
+    public Item PrevItem() {
         if (m_CurrentItem == null && !Empty()) {
             m_CurrentItem = m_Items.Last();
         }
