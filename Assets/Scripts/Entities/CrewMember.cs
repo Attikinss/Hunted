@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public sealed class CrewMember : Pawn, ICanUse, ICanInteract {
 
@@ -6,8 +7,9 @@ public sealed class CrewMember : Pawn, ICanUse, ICanInteract {
 
     [Header("Crew Member Properties")]
     [SerializeField, Tooltip("The distance in which the crew member can interact with objects in the world")]
-    private float m_InteractionDistance = 1.5f;
+    private float m_InteractionDistance = 2.5f;
     private Inventory m_Inventory;
+    private Item m_HeldItem;
 
     private void Awake() => OnAwake();
     private void Update() => OnUpdate();
@@ -22,12 +24,36 @@ public sealed class CrewMember : Pawn, ICanUse, ICanInteract {
         base.OnUpdate();
     }
 
+    public override bool Attach(PlayerInput input, bool forceOverride = false) {
+        if (!base.Attach(input, forceOverride)) {
+            // Could not detach parent class
+            return false;
+        }
+
+        // Subscribe to input events
+        input.actions["Interact"].performed += Interact;
+        input.actions["Primary"].performed += UsePrimary;
+        input.actions["Secondary"].performed += UseSecondary;
+
+        return true;
+    }
+
+    public override void Detach(PlayerInput input) {
+        base.Detach(input);
+
+        // Unsubscribe from input events
+        input.actions["Interact"].performed -= Interact;
+        input.actions["Primary"].performed -= UsePrimary;
+        input.actions["Secondary"].performed -= UseSecondary;
+    }
+
     public GameObject GetObjectInView() {
         // Create ray from view camera
         Ray ray = new Ray(m_PawnView.transform.position, m_PawnView.transform.forward);
 
         // Find object within interaction distance
         if (Physics.Raycast(ray, out RaycastHit hitInfo, m_InteractionDistance)) {
+            Debug.Log($"Object in view: [{hitInfo.transform.gameObject.name}]");
             return hitInfo.transform.gameObject;
         }
 
@@ -59,5 +85,26 @@ public sealed class CrewMember : Pawn, ICanUse, ICanInteract {
         }
 
         return false;
+    }
+
+    private void Interact(InputAction.CallbackContext ctx) {
+        GameObject obj = GetObjectInView();
+        if (obj != null && obj.TryGetComponent(out IInteractable interactable)) {
+            // TODO: Do something with return value
+            Interact(interactable);
+        }
+    }
+
+    private void UsePrimary(InputAction.CallbackContext ctx) {
+        UsePrimary(m_HeldItem);
+    }
+
+    private void UseSecondary(InputAction.CallbackContext ctx) {
+        UseSecondary(m_HeldItem);
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(m_PawnView.transform.position, m_PawnView.transform.position + m_PawnView.transform.forward * InteractionDistance);
     }
 }
