@@ -74,3 +74,6 @@ crashlytics-build.properties
 
 # Built VS Code Extensions
 *.vsix
+
+# VS Code C# Formatting Settings
+omnisharp.json
