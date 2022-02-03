@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
-public class Pawn : MonoBehaviour {
+public abstract class Pawn : MonoBehaviour {
 
     [Header("Pawn Propterties")]
     [SerializeField, Tooltip("The camera that represents the pawn's view")] protected Camera m_PawnView;
@@ -45,11 +45,14 @@ public class Pawn : MonoBehaviour {
     /// <summary>The character controller used for process the pawn's movement.</summary>
     protected CharacterController m_Controller;
 
-    private void Awake() {
-        m_Controller = GetComponent<CharacterController>();
+    protected virtual void OnAwake() {
+         m_Controller = GetComponent<CharacterController>();
     }
 
-    private void Update() {
+    protected virtual void OnStart() {
+    }
+
+    protected virtual void OnUpdate() {
         Look();
         Jump();
         Move();
