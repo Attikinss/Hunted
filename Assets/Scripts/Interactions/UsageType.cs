@@ -1,3 +1,3 @@
 public enum UsageType {
-    NONE = 0, CONSUME, PLACE, THROW
+    NONE = 0, CONSUME, TOGGLE, PLACE, THROW
 }

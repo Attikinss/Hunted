@@ -8,6 +8,10 @@ public sealed class CrewMember : Pawn, ICanUse, ICanInteract {
     [Header("Crew Member Properties")]
     [SerializeField, Tooltip("The distance in which the crew member can interact with objects in the world")]
     private float m_InteractionDistance = 2.5f;
+
+    [SerializeField, Tooltip("The game object that items will be childed to when held by crew member.")]
+    private Transform m_ItemHolder;
+
     private Inventory m_Inventory;
     private Item m_HeldItem;
 
@@ -55,19 +59,23 @@ public sealed class CrewMember : Pawn, ICanUse, ICanInteract {
 
         // Find object within interaction distance
         if (Physics.Raycast(ray, out RaycastHit hitInfo, m_InteractionDistance)) {
-            Debug.Log($"Object in view: [{hitInfo.transform.gameObject.name}]");
             return hitInfo.transform.gameObject;
         }
 
         return null;
     }
 
+    public bool AddToInventory(Item item) {
+        return m_Inventory.AddItem(item);
+    }
+
     public bool Interact(IInteractable interactable) {
         if (interactable != null) {
-            InteractionType interaction = interactable.Interact();
-            return interaction != InteractionType.NONE;
+            InteractionType interaction = interactable.Interact(this);
+            return true;
         }
 
+        // Interaction failed
         return false;
     }
 
@@ -94,7 +102,20 @@ public sealed class CrewMember : Pawn, ICanUse, ICanInteract {
             return;
         }
 
+        // Unchild and turn off item
+        if (m_HeldItem != null) {
+            m_HeldItem.transform.parent = null;
+            m_HeldItem.gameObject.SetActive(false);
+        }
+
+        // Turn on and child new item 
         m_HeldItem = direction > 0 ? m_Inventory.NextItem() : m_Inventory.PrevItem();
+        m_HeldItem.gameObject.SetActive(true);
+        m_HeldItem.transform.parent = m_ItemHolder;
+
+        // Reset local position and rotation
+        m_HeldItem.transform.localPosition = Vector3.zero;
+        m_HeldItem.transform.localRotation = Quaternion.identity;
     }
 
     private void Interact(InputAction.CallbackContext ctx) {
