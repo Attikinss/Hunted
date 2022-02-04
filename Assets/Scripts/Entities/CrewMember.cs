@@ -34,6 +34,7 @@ public sealed class CrewMember : Pawn, ICanUse, ICanInteract {
         input.actions["Interact"].performed += Interact;
         input.actions["Primary"].performed += UsePrimary;
         input.actions["Secondary"].performed += UseSecondary;
+        input.actions["SwitchItem"].performed += SwitchItem;
 
         return true;
     }
@@ -45,6 +46,7 @@ public sealed class CrewMember : Pawn, ICanUse, ICanInteract {
         input.actions["Interact"].performed -= Interact;
         input.actions["Primary"].performed -= UsePrimary;
         input.actions["Secondary"].performed -= UseSecondary;
+        input.actions["SwitchItem"].performed -= SwitchItem;
     }
 
     public GameObject GetObjectInView() {
@@ -87,6 +89,14 @@ public sealed class CrewMember : Pawn, ICanUse, ICanInteract {
         return false;
     }
 
+    public void SwitchItem(int direction) {
+        if (direction == 0) {
+            return;
+        }
+
+        m_HeldItem = direction > 0 ? m_Inventory.NextItem() : m_Inventory.PrevItem();
+    }
+
     private void Interact(InputAction.CallbackContext ctx) {
         GameObject obj = GetObjectInView();
         if (obj != null && obj.TryGetComponent(out IInteractable interactable)) {
@@ -103,8 +113,8 @@ public sealed class CrewMember : Pawn, ICanUse, ICanInteract {
         UseSecondary(m_HeldItem);
     }
 
-    private void OnDrawGizmos() {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(m_PawnView.transform.position, m_PawnView.transform.position + m_PawnView.transform.forward * InteractionDistance);
+    private void SwitchItem(InputAction.CallbackContext ctx) {
+        int value = (int)ctx.ReadValue<Vector2>().y;
+        SwitchItem(value);
     }
 }

@@ -67,7 +67,11 @@ public sealed class Inventory {
     /// <remarks>NOTE: If the current item is the last, the next item will be the first.</remarks>
     /// <returns>Next item in inventory rotation.</returns>
     public Item NextItem() {
-        if (m_CurrentItem == null && !Empty()) {
+        if (Empty()) {
+            return null;
+        }
+
+        if (m_CurrentItem == null) {
             m_CurrentItem = m_Items.First();
         }
         else {
@@ -85,7 +89,11 @@ public sealed class Inventory {
     /// <remarks>NOTE: If the current item is the first, the next item will be the last.</remarks>
     /// <returns>Previous item in inventory rotation.</returns>
     public Item PrevItem() {
-        if (m_CurrentItem == null && !Empty()) {
+        if (Empty()) {
+            return null;
+        }
+
+        if (m_CurrentItem == null) {
             m_CurrentItem = m_Items.Last();
         }
         else {
